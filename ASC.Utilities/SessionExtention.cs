@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ASC.Utilities
 {
-    public static class SessionExtensions
+    public static class SessionExtension
     {
         public static void SetSession(this ISession session, string key, object value)
         {

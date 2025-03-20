@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-
 using ASC.WEB.Services;
 using Microsoft.Identity.Client;
 using ASC.Utilities;
@@ -11,44 +9,33 @@ using ASC.WEB.Models;
 
 namespace ASC.WEB.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AnonymousController
     {
-
         private readonly ILogger<HomeController> _logger;
-        private IOptions<ApplicationSettings> _settings;
+        private readonly IOptions<ApplicationSettings> _settings;
+        private readonly IEmailSender _emailSender;
+
         public HomeController(
-            //ILogger<HomeController> logger, 
+            //ILogger<HomeController> logger,
             IOptions<ApplicationSettings> settings)
+        //,IEmailSender emailSender)
         {
             //_logger = logger;
             _settings = settings;
+            //_emailSender = emailSender;
         }
 
-        //public HomeController(IOptions<ApplicationSettings> @object)
-        //{
-        //}
-
-        //public IActionResult Index([FromServices] IEmailSender emailSender)
-        //{
-        //    var emailService = this.HttpContext.RequestServices.GetService(typeof(IEmailSender)) as IEmailSender;
-        //    ViewBag.Title = _settings.Value.ApplicationTitle;
-        //    return View();
-        //}
         public IActionResult Index()
         {
-            // Thiết lập Session
             HttpContext.Session.SetSession("Test", _settings.Value);
 
-            // Lấy Session
+            // Get Session
             var settings = HttpContext.Session.GetSession<ApplicationSettings>("Test");
 
-            // Sử dụng IOptions
+            // Usage of IOptions
             ViewBag.Title = settings.ApplicationTitle;
 
-            // Trường hợp kiểm thử thất bại (đã comment)
-            // ViewData.Model = "Test";
-            // throw new Exception("Đăng nhập thất bại!!!");
-
+            //return Redirect("https://example.txt");
             return View();
         }
 
@@ -62,18 +49,5 @@ namespace ASC.WEB.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult Dashboard()
-        {
-            return View();
-        }
-
-
-        //public IActionResult Index()
-        //{
-        //    //Test fail test case
-        //    ViewData.Model = "Test";
-        //    throw new Exception("Login Fail!!!");
-        //    return View();
-        //}
     }
 }
