@@ -1,10 +1,13 @@
 ﻿
-    using ASC.DataAccess.Interface;
-    using ASC.WEB.Configuration;
-    using ASC.WEB.Data;
-    using ASC.WEB.Services;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
+using ASC.DataAccess.Interface;
+using ASC.WEB.Configuration;
+using ASC.WEB.Data;
+using ASC.WEB.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ASC.Business;
+using ASC.Business.Interfaces;
+
 
 namespace ASC.WEB.Services
 {
@@ -24,6 +27,14 @@ namespace ASC.WEB.Services
             services.AddOptions(); // IOption
             services.Configure<ApplicationSettings>(config.GetSection("AppSettings"));
 
+            // Using a Gmail Authentication Provider for Customer Authentication
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection = config.GetSection("Google:Identity");
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
             return services;
         }
 
@@ -43,7 +54,7 @@ namespace ASC.WEB.Services
             .AddDefaultTokenProviders();
 
             // Add services
-            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton<IIdentitySeed, IdentitySeed>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -56,10 +67,17 @@ namespace ASC.WEB.Services
             // Add RazorPages, MVC
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
+            services.AddScoped<IMasterDataOperations, MasterDataOperations>();
+            services.AddAutoMapper(typeof(ApplicationDbContext));
 
             return services;
         }
+
+
     }
 }
 

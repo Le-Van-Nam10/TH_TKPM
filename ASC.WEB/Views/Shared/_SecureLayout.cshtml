@@ -42,9 +42,10 @@
 
 <form class="hide" method="post" id="resetPassword_form" asp-area="Identity" asp-page="/Account/InitiateResetPassword">
 </form>
-<main>
+<main class="secureLayout">
     @RenderBody()
 </main>
+
 @section Scripts {
     @RenderSection("Scripts", required: false)
     <script type="text/javascript">
@@ -64,5 +65,4 @@
     </script>
 }
 
-@RenderSection("Scripts", required: false)
 

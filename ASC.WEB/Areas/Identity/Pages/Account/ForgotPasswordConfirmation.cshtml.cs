@@ -20,6 +20,7 @@ namespace ASC.WEB.Areas.Identity.Pages.Account
         /// </summary>
         public void OnGet()
         {
+
         }
     }
 }

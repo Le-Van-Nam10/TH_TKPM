@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ASC.WEB.Services
 {
-    public class AuthMessageSender : IEmailSender, ISmsSender
+    public class AuthMessageSender : IEmailSender, Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, ISmsSender
     {
         private readonly IOptions<ApplicationSettings> _settings;
 
