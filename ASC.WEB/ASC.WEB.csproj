@@ -12,6 +12,7 @@
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
 		<PackageReference Include="EPPlus" Version="8.0.2" />
 		<PackageReference Include="MailKit" Version="4.11.0" />
+		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.20" />
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
@@ -23,6 +24,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.2" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
 	</ItemGroup>
 
@@ -36,9 +38,8 @@
 	<ItemGroup>
 		<Folder Include="Areas\Accounts\Data\" />
 		<Folder Include="Areas\Configuration\Data\" />
-		<Folder Include="Areas\ServiceRequests\Controllers\" />
 		<Folder Include="Areas\ServiceRequests\Data\" />
-		<Folder Include="Areas\ServiceRequests\Models\" />
+		<Folder Include="Areas\ServiceRequests\Shared\" />
 	</ItemGroup>
 
 </Project>

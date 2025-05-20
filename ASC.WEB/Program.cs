@@ -8,6 +8,8 @@ using ASC.WEB.Areas.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using ASC.Business.Interfaces;
+using ASC.Business;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // 🔹 Đăng ký DbContext & UnitOfWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+// 🔹 Đăng ký ServiceRequestOperations
+builder.Services.AddScoped<IServiceRequestOperations, ServiceRequestOperations>();
 // 🔹 Cấu hình Identity (CHỈ ĐĂNG KÝ 1 LẦN)
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 //{
@@ -74,6 +77,7 @@ app.UseRouting();
 app.UseAuthentication(); // ✅ Đảm bảo chỉ gọi 1 lần
 app.UseAuthorization();
 
+app.MapControllers();
 // 🔹 Cấu hình Routes
 app.MapControllerRoute(
     name: "areaRoute",
@@ -104,6 +108,12 @@ using (var scope = app.Services.CreateScope())
 {
     var navigationCacheOperations = scope.ServiceProvider.GetRequiredService<INavigationCacheOperations>();
     await navigationCacheOperations.CreateNavigationCacheAsync();
+}
+using (var scope = app.Services.CreateScope())
+{
+    var masterDataCacheOperations = scope.ServiceProvider.GetRequiredService<IMasterDataCacheOperations>();
+    await masterDataCacheOperations.CreateMasterDataCacheAsync();
+
 }
 app.MapRazorPages();
 

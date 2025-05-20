@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ASC.WED.Areas.Configuration.Models
+namespace ASC.WEB.Areas.Configuration.Models
 {
     public class MasterDataKeyViewModel
     {
